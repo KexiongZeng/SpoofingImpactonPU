@@ -3,6 +3,7 @@ global Database;
 pa=parameter;
 SUNumber=pa.SUNumber;%Number of SUs
 SUProtectRange=pa.SUProtectRange;
+SizeOfGrid=pa.SizeOfGrid;
 RunTimes=pa.RunTimes;% Number of Cases
 SpoofRange=pa.SpoofRange;%Spoofing capability
 ChannelUsing=zeros(1,SUNumber);%Which channel the SU is using
@@ -16,14 +17,14 @@ CoexistenceSU=zeros(1,RunTimes);%Store how many coexistence problems with SU
 SpoofedSUIndex=zeros(1,SUNumber);%Store the SU index in Coordinate
 for r=1:RunTimes
         Load_Initial_Database;%Reset Database 
-        AttackerLocation=[unidrnd(157),unidrnd(157)];%Attacker Location
+        AttackerLocation=[unidrnd(SizeOfGrid),unidrnd(SizeOfGrid)];%Attacker Location
         [ row_lower,row_upper,column_lower,column_upper ] = SetAttackerSpoofBoundary(AttackerLocation(1,1),AttackerLocation(1,2) );
-        SpoofedLocation=[unidrnd(157),unidrnd(157)];%Spoofing Location set by attacker
+        SpoofedLocation=[unidrnd(SizeOfGrid),unidrnd(SizeOfGrid)];%Spoofing Location set by attacker
         SpoofedSUCount=1;
         %Initial Channel allocation for the first SUNumber SUs
     for i=1:SUNumber
-        row=unidrnd(157);
-        column=unidrnd(157);
+        row=unidrnd(SizeOfGrid);
+        column=unidrnd(SizeOfGrid);
         Coordinate{1,i}=[row,column];
        
         %Channel allocation
