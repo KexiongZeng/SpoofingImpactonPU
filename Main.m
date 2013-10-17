@@ -80,6 +80,7 @@ for r=1:RunTimes
     end
     %Check False Deny of Service
     FalseChannelRunOut(1,r)=size(find(FalseChannelUsing(:)==0),1);
+    display(r);
  end
     filename=['Result_SUNUmber_',num2str(SUNumber),'_SUProtectRange_',num2str(SUProtectRange),'_SpoofRange_',num2str(SpoofRange)];
-    save(filename,'FalseChannelRunOut','InterferePU','CoexistenceSU');
+    save(filename,'FalseChannelRunOut','InterferePU','CoexistenceSU','ChannelRunOut');

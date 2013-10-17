@@ -12,6 +12,6 @@ pa.Resolution=8;%0.5mile=800m resolution
 %Every gird is 121.1m north-south and 96.3m east-west
 %157*157 square
 pa.SUProtectRange=1;%Neighboring Protected Range
-pa.SUNumber=200;
+pa.SUNumber=400;
 pa.SpoofRange=50;
-pa.RunTimes=1000;
+pa.RunTimes=10000;

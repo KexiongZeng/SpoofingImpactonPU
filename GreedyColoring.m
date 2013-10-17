@@ -12,12 +12,15 @@ ColoringClass=zeros(1,NumOfSimulatedTowers);%Channel already assigned
 %Assign channel
 for i=1:SUNumber
     RealIndex=SortSUIndex(1,i);
-    if(Degree(1,RealIndex)~=0)
+    if(Degree(1,RealIndex)~=0) %Have neighbors
       Neighbors=[E(find(E(:,1)==RealIndex),2); E(find(E(:,2)==RealIndex),1)];%Find index of neighboring SUs
       NeighborChannel=zeros(1,size(Neighbors,1));  
           for j=1:size(Neighbors,1)
             NeighborChannel(1,j)=ColorChannel(1,Neighbors(j));%Neighbors(j) is real index 
           end
+    else
+        Neighbors=0;
+        NeighborChannel=0;
     end
     
 
