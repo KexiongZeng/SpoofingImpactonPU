@@ -1,13 +1,15 @@
 %Greedy Coloring
-function ColorChannel=GreedyColoring(E,Degree,Coordinate)
+function ColorChannel=GreedyColoring(E,Degree,Coordinate,AvailableChannelNumber)
 pa=parameter;
 SUNumber=pa.SUNumber;%Number of SUs
 SUProtectRange=pa.SUProtectRange;
 NumOfSimulatedTowers=pa.NumOfSimulatedTowers;
+NumOfChannels=pa.NumOfChannels;
 global Database;
 ColorChannel=zeros(1,SUNumber);
-ColoringClass=zeros(1,NumOfSimulatedTowers);%Channel already assigned
-[D,SortSUIndex]=sort(Degree,'descend');
+ColoringClass=zeros(1,NumOfSimulatedTowers*NumOfChannels);%Channel already assigned
+Degree_Channel=Degree-AvailableChannelNumber;
+[D,SortSUIndex]=sort(Degree_Channel,'descend');
  ColorIndex=1;%Used by coloringclass
 %Assign channel
 for i=1:SUNumber
@@ -26,7 +28,7 @@ for i=1:SUNumber
 
     %Try to Assign used channel first
     backup=0;%
-    for j=1:NumOfSimulatedTowers
+    for j=1:NumOfSimulatedTowers*NumOfChannels
         if(Database(j,Coordinate{1,RealIndex}(1),Coordinate{1,RealIndex}(2))==0&&isempty(find(NeighborChannel(:)==j)))%No interference with PU or neighbor's assigned channels
             if(isempty(find(ColoringClass(:)==j))~=1)%Channel j is at the assigned class
                ColorChannel(1,RealIndex)=j; 

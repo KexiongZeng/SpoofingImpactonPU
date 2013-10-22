@@ -5,6 +5,7 @@ pa.PowerThresh = -114 ; % Power level in dBm to indicate if a channel is availab
 pa.NumOfPoints = 25600; % Num of Points used from L-R model
 pa.SizeOfGrid = sqrt(pa.NumOfPoints);%Square size
 pa.NumOfTowers = 10; % Total Num of Towers/Channels considered
+pa.NumOfChannels=6;%subchannel in each TV band
 pa.NumOfSimulatedTowers = 10; % Num of Towers whose Propagation characteristics is considered
 % pa.dtbs=importdata(pa.dtn);
 % pa.dtbs(:,3)=pa.dtbs(:,3)-129.05; % converts power in dBu to dBm
@@ -12,6 +13,6 @@ pa.Resolution=8;%0.5mile=800m resolution
 %Every gird is 121.1m north-south and 96.3m east-west
 %157*157 square
 pa.SUProtectRange=1;%Neighboring Protected Range
-pa.SUNumber=400;
+pa.SUNumber=100;
 pa.SpoofRange=50;
 pa.RunTimes=10000;

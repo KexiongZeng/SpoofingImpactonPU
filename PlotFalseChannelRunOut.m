@@ -9,17 +9,19 @@ SUNumber=100;
 filename=['Result_SUNUmber_',num2str(SUNumber),'_SUProtectRange_',num2str(SUProtectRange),'_SpoofRange_',num2str(SpoofRange)];
 tmp=load(filename);
 FalseChannelRunOut=tmp.FalseChannelRunOut;
-minFalseRunOut=min(FalseChannelRunOut);
-maxFalseRunOut=max(FalseChannelRunOut);
-PlotFalseRunOut=zeros(1,maxFalseRunOut-minFalseRunOut+1);
-FalseRunOutIndex=1;
-for i=minFalseRunOut:maxFalseRunOut
-    PlotFalseRunOut(1,FalseRunOutIndex)=sum(ismember(FalseChannelRunOut,i));
-    FalseRunOutIndex=FalseRunOutIndex+1;
-end
-PlotFalseRunOut=PlotFalseRunOut/RunTimes;
+% minFalseRunOut=min(FalseChannelRunOut);
+% maxFalseRunOut=max(FalseChannelRunOut);
+% PlotFalseRunOut=zeros(1,maxFalseRunOut-minFalseRunOut+1);
+% FalseRunOutIndex=1;
+% for i=minFalseRunOut:maxFalseRunOut
+%     PlotFalseRunOut(1,FalseRunOutIndex)=sum(ismember(FalseChannelRunOut,i));
+%     FalseRunOutIndex=FalseRunOutIndex+1;
+% end
+% PlotFalseRunOut=PlotFalseRunOut/RunTimes;
 figure(1)
-plot(minFalseRunOut:maxFalseRunOut,PlotFalseRunOut,'red');
+%plot(minFalseRunOut:maxFalseRunOut,PlotFalseRunOut,'red');
+[f,x]=ecdf(FalseChannelRunOut);
+plot(x,f,'red');
 hold on;
 grid on;
 
@@ -27,16 +29,18 @@ SUNumber=200;
 filename=['Result_SUNUmber_',num2str(SUNumber),'_SUProtectRange_',num2str(SUProtectRange),'_SpoofRange_',num2str(SpoofRange)];
 tmp=load(filename);
 FalseChannelRunOut=tmp.FalseChannelRunOut;
-minFalseRunOut=min(FalseChannelRunOut);
-maxFalseRunOut=max(FalseChannelRunOut);
-PlotFalseRunOut=zeros(1,maxFalseRunOut-minFalseRunOut+1);
-FalseRunOutIndex=1;
-for i=minFalseRunOut:maxFalseRunOut
-    PlotFalseRunOut(1,FalseRunOutIndex)=sum(ismember(FalseChannelRunOut,i));
-    FalseRunOutIndex=FalseRunOutIndex+1;
-end
-PlotFalseRunOut=PlotFalseRunOut/RunTimes;
-plot(minFalseRunOut:maxFalseRunOut,PlotFalseRunOut,'yellow');
+% minFalseRunOut=min(FalseChannelRunOut);
+% maxFalseRunOut=max(FalseChannelRunOut);
+% PlotFalseRunOut=zeros(1,maxFalseRunOut-minFalseRunOut+1);
+% FalseRunOutIndex=1;
+% for i=minFalseRunOut:maxFalseRunOut
+%     PlotFalseRunOut(1,FalseRunOutIndex)=sum(ismember(FalseChannelRunOut,i));
+%     FalseRunOutIndex=FalseRunOutIndex+1;
+% end
+% PlotFalseRunOut=PlotFalseRunOut/RunTimes;
+%plot(minFalseRunOut:maxFalseRunOut,PlotFalseRunOut,'yellow');
+[f,x]=ecdf(FalseChannelRunOut);
+plot(x,f,'yellow');
 hold on;
 
 
@@ -44,14 +48,16 @@ SUNumber=300;
 filename=['Result_SUNUmber_',num2str(SUNumber),'_SUProtectRange_',num2str(SUProtectRange),'_SpoofRange_',num2str(SpoofRange)];
 tmp=load(filename);
 FalseChannelRunOut=tmp.FalseChannelRunOut;
-minFalseRunOut=min(FalseChannelRunOut);
-maxFalseRunOut=max(FalseChannelRunOut);
-PlotFalseRunOut=zeros(1,maxFalseRunOut-minFalseRunOut+1);
-FalseRunOutIndex=1;
-for i=minFalseRunOut:maxFalseRunOut
-    PlotFalseRunOut(1,FalseRunOutIndex)=sum(ismember(FalseChannelRunOut,i));
-    FalseRunOutIndex=FalseRunOutIndex+1;
-end
-PlotFalseRunOut=PlotFalseRunOut/RunTimes;
-plot(minFalseRunOut:maxFalseRunOut,PlotFalseRunOut,'blue');
+% minFalseRunOut=min(FalseChannelRunOut);
+% maxFalseRunOut=max(FalseChannelRunOut);
+% PlotFalseRunOut=zeros(1,maxFalseRunOut-minFalseRunOut+1);
+% FalseRunOutIndex=1;
+% for i=minFalseRunOut:maxFalseRunOut
+%     PlotFalseRunOut(1,FalseRunOutIndex)=sum(ismember(FalseChannelRunOut,i));
+%     FalseRunOutIndex=FalseRunOutIndex+1;
+% end
+% PlotFalseRunOut=PlotFalseRunOut/RunTimes;
+%plot(minFalseRunOut:maxFalseRunOut,PlotFalseRunOut,'blue');
+[f,x]=ecdf(FalseChannelRunOut);
+plot(x,f,'blue');
 hold on;
