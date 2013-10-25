@@ -2,14 +2,29 @@
 function [E,Degree]=CreateGraph(Coordinate)
 pa=parameter;
 SUNumber=pa.SUNumber;%Number of SUs
-SUProtectRange=pa.SUProtectRange;
+SizeOfGrid=pa.SizeOfGrid;
 E=zeros((1+SUNumber)*SUNumber/2,2);%Connectivity matrix
 Degree=zeros(1,SUNumber);
 k=1;%Index of E
+%Base station coordinate
+X_BS=SizeOfGrid/2;
+Y_BS=SizeOfGrid/2;
 for i=1:SUNumber
-           [ row_lower,row_upper,column_lower,column_upper ] = SetSUProtectBoundary(Coordinate{1,i}(1), Coordinate{1,i}(2));
+          X_1=Coordinate{1,i}(1);
+          Y_1=Coordinate{1,i}(2);
+%           X_1=80;
+%           Y_1=75;
+          r_1=sqrt((X_1-X_BS)^2+(Y_1-Y_BS)^2);
+           %[ row_lower,row_upper,column_lower,column_upper ] = SetSUProtectBoundary(Coordinate{1,i}(1), Coordinate{1,i}(2));
    for j=(i+1):SUNumber
-        if((Coordinate{1,j}(1)>=row_lower)&&(Coordinate{1,j}(1)<=row_upper)&&(Coordinate{1,j}(2)>=column_lower)&&(Coordinate{1,j}(2)<=column_upper))
+       %If two circles are overlapped, nodes are connected
+          X_2=Coordinate{1,j}(1);
+          Y_2=Coordinate{1,j}(2);
+%           X_2=80;
+%           Y_2=85;
+       r_2=sqrt((X_2-X_BS)^2+(Y_2-Y_BS)^2);
+       d=sqrt((X_1-X_2)^2+(Y_1-Y_2)^2)+0.1*(r_1+r_2);%Tolerate some overlap
+        if(d<r_1+r_2)
             E(k,1)=i;
             E(k,2)=j;
             k=k+1;

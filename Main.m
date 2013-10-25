@@ -3,6 +3,7 @@ clear;
 global Database;
 pa=parameter;
 SUNumber=pa.SUNumber;%Number of SUs
+NumOfSimulatedTowers=pa.NumOfSimulatedTowers;
 SUProtectRange=pa.SUProtectRange;
 SizeOfGrid=pa.SizeOfGrid;
 NumOfChannels=pa.NumOfChannels;%Subchannels in one TV band
@@ -14,17 +15,17 @@ SpoofedSUOriginalLocation=cell(1,SUNumber);%Store the original location of SUs s
 FalseAvailableChannel=zeros(1,SUNumber);%Store the channels falsely assigned to spoofed SUs
 ChannelRunOut=zeros(1,RunTimes);%Store channel run out reports for initial set up for SUNmber SUs
 FalseChannelRunOut=zeros(1,RunTimes);%Store how many SUs are falsly denied of service
-InterferePU=zeros(1,RunTimes);%Store how many interference with PUs
+InterferePU=zeros(RunTimes,NumOfSimulatedTowers);%Store how many interference with PUs
 CoexistenceSU=zeros(1,RunTimes);%Store how many coexistence problems with SU
 SpoofedSUIndex=zeros(1,SUNumber);%Store the SU index in Coordinate
 AvailableChannelNumber=zeros(1,SUNumber);%Store available channel number for every second user
 for r=1:RunTimes
-        %Load_Initial_Database;%Reset Database 
-        RefineDatabase;
+        Load_Initial_Database;%Reset Database 
         AttackerLocation=[unidrnd(SizeOfGrid),unidrnd(SizeOfGrid)];%Attacker Location
         [ row_lower,row_upper,column_lower,column_upper ] = SetAttackerSpoofBoundary(AttackerLocation(1,1),AttackerLocation(1,2) );
         SpoofedLocation=[unidrnd(SizeOfGrid),unidrnd(SizeOfGrid)];%Spoofing Location set by attacker
         SpoofedSUCount=1;
+       % Database(151:300,:,:)=0;
         %Initial Channel allocation for the first SUNumber SUs
     for i=1:SUNumber
         row=unidrnd(SizeOfGrid);
@@ -59,17 +60,22 @@ for r=1:RunTimes
         %out and interference with PU and coexistence problems with SU
 
         FalseCoordinate=Coordinate;
+        FalseAvailableChannelNumber=AvailableChannelNumber;
+        FalseLia=ismember(Database(:,SpoofedLocation(1,1),SpoofedLocation(1,2)),0);
+        tmp=sum(FalseLia)/NumOfChannels;
     for j=1:(SpoofedSUCount-1)
-        FalseCoordinate{1,SpoofedSUIndex(1,j)}=SpoofedLocation;  
+        FalseCoordinate{1,SpoofedSUIndex(1,j)}=SpoofedLocation;      
+        FalseAvailableChannelNumber(1,SpoofedSUIndex(1,j))=tmp;
     end
     [FalseE,FalseDegree]=CreateGraph(FalseCoordinate);
-    FalseChannelUsing=GreedyColoring(FalseE,FalseDegree,FalseCoordinate,AvailableChannelNumber);
+    FalseChannelUsing=GreedyColoring(FalseE,FalseDegree,FalseCoordinate,FalseAvailableChannelNumber);
    
     for j=1:(SpoofedSUCount-1)
          %Check PU Interference
-        if(FalseChannelUsing(1,SpoofedSUIndex(1,j))~=0)
+         FalseChannel=FalseChannelUsing(1,SpoofedSUIndex(1,j));
+        if(FalseChannel~=0)
             if(Database(FalseChannelUsing(1,SpoofedSUIndex(1,j)),Coordinate{1,SpoofedSUIndex(1,j)}(1),Coordinate{1,SpoofedSUIndex(1,j)}(2))~=0)
-                InterferePU(1,r)=InterferePU(1,r)+1;%Mark as interference with PU 
+                InterferePU(r,ceil(FalseChannel/NumOfChannels))=InterferePU(r,ceil(FalseChannel/NumOfChannels))+1;%Mark as interference with which PU 
             end
             %Check SU Coexistence Problem
             if(Degree(1,SpoofedSUIndex(1,j))~=0)
