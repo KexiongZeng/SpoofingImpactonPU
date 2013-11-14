@@ -69,7 +69,8 @@ for r=1:RunTimes
     end
     [FalseE,FalseDegree]=CreateGraph(FalseCoordinate);
     FalseChannelUsing=GreedyColoring(FalseE,FalseDegree,FalseCoordinate,FalseAvailableChannelNumber);
-   
+    save('RealCoordinate.mat','Coordinate');
+    save('FalseCoordinate.mat','FalseCoordinate');
     for j=1:(SpoofedSUCount-1)
          %Check PU Interference
          FalseChannel=FalseChannelUsing(1,SpoofedSUIndex(1,j));

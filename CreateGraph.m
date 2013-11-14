@@ -14,7 +14,7 @@ for i=1:SUNumber
           Y_1=Coordinate{1,i}(2);
 %           X_1=80;
 %           Y_1=75;
-          r_1=sqrt((X_1-X_BS)^2+(Y_1-Y_BS)^2);
+          r_1_square=(X_1-X_BS)^2+(Y_1-Y_BS)^2;
            %[ row_lower,row_upper,column_lower,column_upper ] = SetSUProtectBoundary(Coordinate{1,i}(1), Coordinate{1,i}(2));
    for j=(i+1):SUNumber
        %If two circles are overlapped, nodes are connected
@@ -22,9 +22,11 @@ for i=1:SUNumber
           Y_2=Coordinate{1,j}(2);
 %           X_2=80;
 %           Y_2=85;
-       r_2=sqrt((X_2-X_BS)^2+(Y_2-Y_BS)^2);
-       d=sqrt((X_1-X_2)^2+(Y_1-Y_2)^2)+0.1*(r_1+r_2);%Tolerate some overlap
-        if(d<r_1+r_2)
+       r_2_square=(X_2-X_BS)^2+(Y_2-Y_BS)^2;
+       d_square=(X_1-X_2)^2+(Y_1-Y_2)^2;
+       %Check if one is in the transmission range
+       % if(d_square<r_1_square||d_square<r_2_square)
+        if(1)%all nodes are connected at BaseStation
             E(k,1)=i;
             E(k,2)=j;
             k=k+1;
