@@ -1,6 +1,5 @@
 %Plot PU Interference
 clear;
-close all;
 pa=parameter;
 RunTimes=pa.RunTimes;
 SUProtectRange=pa.SUProtectRange;

@@ -95,4 +95,4 @@ for r=1:RunTimes
     display(r);
  end
     filename=['Result_SUNUmber_',num2str(SUNumber),'_SUProtectRange_',num2str(SUProtectRange),'_SpoofRange_',num2str(SpoofRange)];
-    save(filename,'FalseChannelRunOut','InterferePU','CoexistenceSU','ChannelRunOut');
+    save(filename,'FalseChannelRunOut','InterferePU','CoexistenceSU','ChannelRunOut','SpoofedSUCount');
