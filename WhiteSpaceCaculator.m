@@ -38,8 +38,7 @@ PUMapIntersection=ones(NumOfSimulatedTowers,SizeOfGrid,SizeOfGrid);%Intersection
    end
 
     for j=1: SideLength
-             for  k=1: SideLength
-                     
+             for  k=1: SideLength                  
                 for l=1:NumOfSimulatedTowers  
                          Database(NumOfChannels*(l-1)+1:NumOfChannels*l,(j-1)*Resolution+1:j*Resolution,(k-1)*Resolution+1:k*Resolution)=PUMapIntersection(l,j,k);
                 end

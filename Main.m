@@ -19,12 +19,13 @@ InterferePU=zeros(RunTimes,NumOfSimulatedTowers);%Store how many interference wi
 CoexistenceSU=zeros(1,RunTimes);%Store how many coexistence problems with SU
 SpoofedSUIndex=zeros(1,SUNumber);%Store the SU index in Coordinate
 AvailableChannelNumber=zeros(1,SUNumber);%Store available channel number for every second user
+SpoofedSUCount=zeros(1,RunTimes);
 for r=1:RunTimes
         Load_Initial_Database;%Reset Database 
         AttackerLocation=[unidrnd(SizeOfGrid),unidrnd(SizeOfGrid)];%Attacker Location
         [ row_lower,row_upper,column_lower,column_upper ] = SetAttackerSpoofBoundary(AttackerLocation(1,1),AttackerLocation(1,2) );
         SpoofedLocation=[unidrnd(SizeOfGrid),unidrnd(SizeOfGrid)];%Spoofing Location set by attacker
-        SpoofedSUCount=1;
+        SpoofedSUCount(r)=1;
        % Database(151:300,:,:)=0;
         %Initial Channel allocation for the first SUNumber SUs
     for i=1:SUNumber
@@ -41,9 +42,9 @@ for r=1:RunTimes
         %original location
         if((row>=row_lower)&&(row<=row_upper)&&(column>=column_lower)&&(column<=column_upper))
 
-            SpoofedSUOriginalLocation{1,SpoofedSUCount}=[row,column];
-            SpoofedSUIndex(1,SpoofedSUCount)=i;
-            SpoofedSUCount=SpoofedSUCount+1;
+            SpoofedSUOriginalLocation{1,SpoofedSUCount(r)}=[row,column];
+            SpoofedSUIndex(1,SpoofedSUCount(r))=i;
+            SpoofedSUCount(r)=SpoofedSUCount(r)+1;
 
         end
         
@@ -53,9 +54,9 @@ for r=1:RunTimes
 %         end
     end
         %
-        [E,Degree]=CreateGraph(Coordinate);
-        ChannelUsing=GreedyColoring(E,Degree,Coordinate,AvailableChannelNumber);
-        ChannelRunOut(1,r)=size(find(ChannelUsing(:)==0),1);
+%         [E,Degree]=CreateGraph(Coordinate);
+%         ChannelUsing=GreedyColoring(E,Degree,Coordinate,AvailableChannelNumber);
+%         ChannelRunOut(1,r)=size(find(ChannelUsing(:)==0),1);
         %Check all spoofed SUs to see if there are any false channel run
         %out and interference with PU and coexistence problems with SU
 
@@ -63,7 +64,7 @@ for r=1:RunTimes
         FalseAvailableChannelNumber=AvailableChannelNumber;
         FalseLia=ismember(Database(:,SpoofedLocation(1,1),SpoofedLocation(1,2)),0);
         tmp=sum(FalseLia)/NumOfChannels;
-    for j=1:(SpoofedSUCount-1)
+    for j=1:(SpoofedSUCount(r)-1)
         FalseCoordinate{1,SpoofedSUIndex(1,j)}=SpoofedLocation;      
         FalseAvailableChannelNumber(1,SpoofedSUIndex(1,j))=tmp;
     end
@@ -71,23 +72,23 @@ for r=1:RunTimes
     FalseChannelUsing=GreedyColoring(FalseE,FalseDegree,FalseCoordinate,FalseAvailableChannelNumber);
     save('RealCoordinate.mat','Coordinate');
     save('FalseCoordinate.mat','FalseCoordinate');
-    for j=1:(SpoofedSUCount-1)
+    for j=1:(SpoofedSUCount(r)-1)
          %Check PU Interference
          FalseChannel=FalseChannelUsing(1,SpoofedSUIndex(1,j));
         if(FalseChannel~=0)
-            if(Database(FalseChannelUsing(1,SpoofedSUIndex(1,j)),Coordinate{1,SpoofedSUIndex(1,j)}(1),Coordinate{1,SpoofedSUIndex(1,j)}(2))~=0)
+            if(Database(FalseChannel,Coordinate{1,SpoofedSUIndex(1,j)}(1),Coordinate{1,SpoofedSUIndex(1,j)}(2))~=0)
                 InterferePU(r,ceil(FalseChannel/NumOfChannels))=InterferePU(r,ceil(FalseChannel/NumOfChannels))+1;%Mark as interference with which PU 
             end
             %Check SU Coexistence Problem
-            if(Degree(1,SpoofedSUIndex(1,j))~=0)
-                Neighbors=[E(find(E(:,1)==SpoofedSUIndex(1,j)),2); E(find(E(:,2)==SpoofedSUIndex(1,j)),1)];%Find index of neighboring SUs
-                for k=1:size(Neighbors,1)
-                    if(FalseChannelUsing(1,SpoofedSUIndex(1,j))==FalseChannelUsing(1,Neighbors(k)))
-                        CoexistenceSU(1,r)=CoexistenceSU(1,r)+1;%Mark as coexistence problems with SU
-                        break;
-                    end
-                end
-            end
+%             if(Degree(1,SpoofedSUIndex(1,j))~=0)
+%                 Neighbors=[E(find(E(:,1)==SpoofedSUIndex(1,j)),2); E(find(E(:,2)==SpoofedSUIndex(1,j)),1)];%Find index of neighboring SUs
+%                 for k=1:size(Neighbors,1)
+%                     if(FalseChannelUsing(1,SpoofedSUIndex(1,j))==FalseChannelUsing(1,Neighbors(k)))
+%                         CoexistenceSU(1,r)=CoexistenceSU(1,r)+1;%Mark as coexistence problems with SU
+%                         break;
+%                     end
+%                 end
+%             end
         end
     end
     %Check False Deny of Service

@@ -14,9 +14,30 @@ pa.Resolution=8;%0.5mile=800m resolution
 %Every gird is 121.1m north-south and 96.3m east-west
 %157*157 square
 pa.SUProtectRange=1;%Neighboring Protected Range
-pa.SUNumber=400;
-pa.SpoofRange=10;
+pa.SUNumber=1000;
+pa.SpoofRange=80;
 pa.RunTimes=50;
+pa.BSChannelInd=[ 6
+     7
+     9
+    12
+    16
+    21
+    22
+    26
+    27
+    29
+    33
+    34
+    35
+    38
+    39
+    43
+    45
+    47
+    48
+    50
+    51];
 % longitude=zeros(1,157);
 % latitude=zeros(1,157);
 % longitude_sample=zeros(1,20);
