@@ -50,54 +50,17 @@ for r=1:RunTimes
            FalseAvailableChannelNumber(1,i)=AvailableChannelatSpoofedLocation;
         end
     end
-    %Simulate NO attack case
-    SUTrStatus=zeros(1,SUNumber);%1 means transmission completed
-    SUTransFinishedNum=0;
-
-    clock_1=0;
-    while(SUTransFinishedNum<SUNumber)
-        [B,IX]=sort(AvaLocNum+(rand(TotalAvailableChannelNum,1)-0.5));%Sort available channel from low to high and randomly break the tie
-        SortBSChannelInd=BSChannelInd(IX);
-       for i=1:TotalAvailableChannelNum
-           for j=1:NumOfChannels
-               CandidateSU=0;
-              AssignedChannelInd=(BSChannelInd(i)-1)*NumOfChannels+j;%Subchannel index
-              AvailableChannelNum=10000*ones(1,SUNumber);
-              %List vertex coloring
-              for k=1:SUNumber
-                  if(~SUTrStatus(k))
-                      Location=[Coordinate{k}(1),Coordinate{k}(2)];
-                      if(~Database(AssignedChannelInd,ceil(Location(1)),ceil(Location(2))))%Channel is available at that location
-                          if(~CandidateSU)
-                              CandidateSU=AssignedChannelInd;                            
-                          else
-                              CandidateSU=[CandidateSU,k];
-                          end
-                        
-                          AvailableChannelNum(k)=RealAvailableChannelNumber(k);%Num of available channels at location
-                      end
-                  end
-              end
-                if(CandidateSU)
-                  [B,IX]=sort(AvailableChannelNum,'ascend');
-                  SUTrStatus(IX(1))=1;%Already assigned channel
-                  ChannelIndUsedByEachSU_1(IX(1))= AssignedChannelInd;%Record which channel is assigned
-                  SUTransFinishedNum=SUTransFinishedNum+1;
-                end
-           end
-       end
-       RealDenyofServiceNum(r)=RealDenyofServiceNum(r)+(SUNumber-SUTransFinishedNum);
-       clock_1=clock_1+1;
-    end
-    %Simulate attack case
+    %Simulate random attack case
     SUTrStatus=zeros(1,SUNumber);%1 means transmission completed
     SUTransFinishedNum=0;
     clock_2=0;
+            [B,IX]=sort(AvaLocNum+(rand(TotalAvailableChannelNum,1)-0.5));%Sort available channel from low to high and randomly break the tie
+        SortBSChannelInd=BSChannelInd(IX);
     while(SUTransFinishedNum<SUNumber)
        for i=1:TotalAvailableChannelNum
            for j=1:NumOfChannels
                CandidateSU=0;
-              AssignedChannelInd=(BSChannelInd(i)-1)*NumOfChannels+j;%Subchannel index
+              AssignedChannelInd=(SortBSChannelInd(i)-1)*NumOfChannels+j;%Subchannel index
               AvailableChannelNum=10000*ones(1,SUNumber);
               %List vertex coloring
               for k=1:SUNumber
@@ -119,7 +82,7 @@ for r=1:RunTimes
                   end
               end
                 if(CandidateSU)
-                  [B,IX]=sort(AvailableChannelNum,'ascend');
+                  [B,IX]=sort(AvailableChannelNum+(rand(1,SUNumber)-0.5));%Sort by color degree from low to high, break tie randomly
                   SUTrStatus(IX(1))=1;%Already assigned channel
                   ChannelIndUsedByEachSU_2(IX(1))= AssignedChannelInd;%Record which channel is assigned
                   SUTransFinishedNum=SUTransFinishedNum+1;

@@ -7,6 +7,7 @@ Resolution=pa.Resolution;
 SideLength=SizeOfGrid/Resolution;
 NumOfTowers=pa.NumOfTowers;
 NumOfChannels=pa.NumOfChannels;
+%NumOfChannels=1;
 NumOfSimulatedTowers=pa.NumOfSimulatedTowers;
 Database=zeros(NumOfTowers*NumOfChannels,SizeOfGrid,SizeOfGrid);
 PUMap=ones(NumOfSimulatedTowers,SizeOfGrid,SizeOfGrid);
