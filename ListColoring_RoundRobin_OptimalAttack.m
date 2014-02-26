@@ -135,7 +135,7 @@ for r=1:RunTimes
             end
          end
          [B,IX]=sort(Phi,'descend');
-    SpoofedLocation=[RowInd(IX(1))*Resolution+1,ColumnInd(IX(1))*Resolution+1];%Spoofing Location set by attacker
+    SpoofedLocation=[(RowInd(IX(1))-1)*Resolution+1,(ColumnInd(IX(1))-1)*Resolution+1];%Spoofing Location set by attacker
     Lia=ismember(Database(:,ceil(SpoofedLocation(1)),ceil(SpoofedLocation(2))),0);
     AvailableChannelatSpoofedLocation=sum(Lia)/NumOfChannels;
     FalseAvailableChannelNumber_GreedyAttack= AvailableChannelNumber;
@@ -196,7 +196,7 @@ for r=1:RunTimes
        end
     end
      ChannelInterfered_GreedyAttack(r)= tmpChannelInterfered;
-%       save('tmp_GreedyAttack','SpoofedSUNum','ChannelInterfered_GreedyAttack','ChannelInterferedDistribution_GreedyAttack');
+       save('tmp_GreedyAttack','SpoofedSUNum','ChannelInterfered_GreedyAttack','ChannelInterferedDistribution_GreedyAttack');
                %Generate Brutal forceOptimal spoof location 
         ChannelInterferedBrutalForce=zeros(1,(SizeOfGrid/Resolution)^2);
          for p=1:(SizeOfGrid/Resolution)

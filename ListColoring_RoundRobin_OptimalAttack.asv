@@ -54,8 +54,7 @@ for r=1:RunTimes
         end
     end
     %Generate random spoof location 
-    %SpoofedLocation=[rand(1)*SizeOfGrid,rand(1)*SizeOfGrid];%Spoofing Location set by attacker
-    SpoofedLocation=[137,129];
+    SpoofedLocation=[rand(1)*SizeOfGrid,rand(1)*SizeOfGrid];%Spoofing Location set by attacker
     Lia=ismember(Database(:,ceil(SpoofedLocation(1)),ceil(SpoofedLocation(2))),0);
     AvailableChannelatSpoofedLocation=sum(Lia)/NumOfChannels;
     FalseAvailableChannelNumber_RandomAttack= AvailableChannelNumber;
@@ -136,7 +135,7 @@ for r=1:RunTimes
             end
          end
          [B,IX]=sort(Phi,'descend');
-    SpoofedLocation=[RowInd(IX(1))*Resolution+1,ColumnInd(IX(1))*Resolution+1];%Spoofing Location set by attacker
+    SpoofedLocation=[(RowInd(IX(1))-1)*Resolution+1,(ColumnInd(IX(1))-1)*Resolution+1];%Spoofing Location set by attacker
     Lia=ismember(Database(:,ceil(SpoofedLocation(1)),ceil(SpoofedLocation(2))),0);
     AvailableChannelatSpoofedLocation=sum(Lia)/NumOfChannels;
     FalseAvailableChannelNumber_GreedyAttack= AvailableChannelNumber;
