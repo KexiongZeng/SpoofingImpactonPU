@@ -1,5 +1,5 @@
 %Use list graph coloring and Round Robin scheduling algorithm to simulate Database-driven WSNs
-clear all;
+clear;
 global Database;
 pa=parameter;
 % AvaChannelInd=pa.AvaChannelInd;
@@ -34,6 +34,7 @@ FalseDenyofServiceNum=zeros(1,RunTimes);
 
 % Run simulations for RunTimes
 for r=1:RunTimes
+    fprintf('We are running case %d\n',r);
     ChannelIndUsedByEachSU_RandomAttack=zeros(1,SUNumber);%record channel ind used by each SU in random attack case
     ChannelIndUsedByEachSU_GreedyAttack=zeros(1,SUNumber);%record channel ind used by each SU in greedy attack case
     ChannelIndUsedByEachSU_OptimalAttack=zeros(1,SUNumber);%record channel ind used by each SU in Optimal attack case
@@ -103,7 +104,7 @@ for r=1:RunTimes
        FalseDenyofServiceNum(r)=FalseDenyofServiceNum(r)+(SUNumber-SUTransFinishedNum);
        clock_RandomAttack=clock_RandomAttack+1;
     end
-    [m,n]=size(SpoofedSUInd);
+    n=SpoofedSUNum(r);
     tmpChannelInterfered=0;
     %Check if any spoofed SU interfers with PU
     for k=1:n
@@ -184,7 +185,7 @@ for r=1:RunTimes
        FalseDenyofServiceNum(r)=FalseDenyofServiceNum(r)+(SUNumber-SUTransFinishedNum);
        clock_GreedyAttack=clock_GreedyAttack+1;
     end
-    [m,n]=size(SpoofedSUInd);
+    n=SpoofedSUNum(r);
     tmpChannelInterfered=0;
     %Check if any spoofed SU interfers with PU
     for k=1:n
@@ -251,7 +252,7 @@ for r=1:RunTimes
                    FalseDenyofServiceNum(r)=FalseDenyofServiceNum(r)+(SUNumber-SUTransFinishedNum);
                    clock_OptimalAttack=clock_OptimalAttack+1;
                 end
-                [m,n]=size(SpoofedSUInd);
+                n=SpoofedSUNum(r);
                 tmpChannelInterfered=0;
                 %Check if any spoofed SU interfers with PU
                 for k=1:n

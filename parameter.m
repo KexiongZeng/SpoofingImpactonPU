@@ -40,7 +40,7 @@ pa.Resolution=8;%0.5mile=800m resolution
 pa.SUProtectRange=1;%Neighboring Protected Range
 pa.SUNumber=21*pa.NumOfChannels*60;%
 pa.SpoofRange=10;
-pa.RunTimes=30;
+pa.RunTimes=20;
 
 % longitude=zeros(1,157);
 % latitude=zeros(1,157);
