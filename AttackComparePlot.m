@@ -1,3 +1,13 @@
+a=ChannelInterfered_RandomAttack;
+b=ChannelInterfered_GreedyAttack;
+c=ChannelInterfered_OptimalAttack;
+a=[a,ChannelInterfered_RandomAttack];
+b=[b,ChannelInterfered_GreedyAttack];
+c=[c,ChannelInterfered_OptimalAttack];
+ChannelInterfered_RandomAttack=a;
+ChannelInterfered_GreedyAttack=b;
+ChannelInterfered_OptimalAttack=c;
+save('tmp','ChannelInterfered_RandomAttack','ChannelInterfered_GreedyAttack','ChannelInterfered_OptimalAttack');
 mean(ChannelInterfered_RandomAttack)
 mean(ChannelInterfered_GreedyAttack)
 mean(ChannelInterfered_OptimalAttack)
@@ -13,5 +23,5 @@ hold on;
 plot(x,f,'red');
 hold on;
 [f,x]=ecdf(ChannelInterfered_OptimalAttack);
-plot(x,f,'black');
+plot(x,f,'green');
 
