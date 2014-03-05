@@ -5,7 +5,7 @@ pa=parameter;
 % AvaChannelInd=pa.AvaChannelInd;
 Resolution=pa.Resolution;
  AvaLocNum=pa.AvaLocNum;
-SUNumber=700;%Number of SUs
+SUNumber=pa.SUNumber;%Number of SUs
 NumOfSimulatedTowers=pa.NumOfSimulatedTowers;
 SUProtectRange=pa.SUProtectRange;
 SizeOfGrid=pa.SizeOfGrid;
@@ -31,10 +31,10 @@ RealAvailableChannelNumber=zeros(1,SUNumber);%Store real available channel numbe
 AvailableChannelNumber=zeros(1,SUNumber);%Store False available channel number for every second user
 RealDenyofServiceNum=zeros(1,RunTimes);
 FalseDenyofServiceNum=zeros(1,RunTimes);
-%WorstCase=zeros(1,10);
+WorstCase=zeros(1,10);
 % Run simulations for RunTimes
-% for s=1:10
-%     SUNumber=100*s;
+for s=1:10
+    SUNumber=100*s;
     for r=1:RunTimes
         fprintf('We are running case %d\n',r);
         ChannelIndUsedByEachSU_RandomAttack=zeros(1,SUNumber);%record channel ind used by each SU in random attack case
@@ -120,7 +120,7 @@ FalseDenyofServiceNum=zeros(1,RunTimes);
          ChannelInterfered_RandomAttack(r)= tmpChannelInterfered;
      
     end
-    worstcase=max(ChannelInterfered_RandomAttack);
-% end
-save('tmp_RandomAttack','SpoofedSUNum','ChannelInterfered_RandomAttack','ChannelInterferedDistribution_RandomAttack');
+    WorstCase(s)=max(ChannelInterfered_RandomAttack);
+end
+save('tmp_RandomAttack','SpoofedSUNum','ChannelInterfered_RandomAttack','ChannelInterferedDistribution_RandomAttack','WorstCase');
 beep;
