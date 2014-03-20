@@ -108,8 +108,8 @@ for r=1:RunTimes
     tmpChannelInterfered=0;
     %Check if any spoofed SU interfers with PU
     for k=1:n
-       Location= [Coordinate{k}(1),Coordinate{k}(2)];%Real Location
-       Ind=SpoofedSUInd(k);
+                 Ind=SpoofedSUInd(k);
+                   Location= [Coordinate{Ind}(1),Coordinate{Ind}(2)];%Real Location
        if(Database(ChannelIndUsedByEachSU_RandomAttack(Ind),ceil(Location(1)),ceil(Location(2))))%PU is active
           ChannelInterferedDistribution_RandomAttack(r,ChannelIndUsedByEachSU_RandomAttack(Ind))= ChannelInterferedDistribution_RandomAttack(r,ChannelIndUsedByEachSU_RandomAttack(Ind))+1;
           tmpChannelInterfered= tmpChannelInterfered+1;  
@@ -189,8 +189,8 @@ for r=1:RunTimes
     tmpChannelInterfered=0;
     %Check if any spoofed SU interfers with PU
     for k=1:n
-       Location= [Coordinate{k}(1),Coordinate{k}(2)];%Real Location
-       Ind=SpoofedSUInd(k);
+                 Ind=SpoofedSUInd(k);
+                 Location= [Coordinate{Ind}(1),Coordinate{Ind}(2)];%Real Location
        if(Database(ChannelIndUsedByEachSU_GreedyAttack(Ind),ceil(Location(1)),ceil(Location(2))))%PU is active
         ChannelInterferedDistribution_GreedyAttack(r,ChannelIndUsedByEachSU_GreedyAttack(Ind))= ChannelInterferedDistribution_GreedyAttack(r,ChannelIndUsedByEachSU_GreedyAttack(Ind))+1;
           tmpChannelInterfered= tmpChannelInterfered+1;  
@@ -210,7 +210,7 @@ for r=1:RunTimes
                 SpoofedSUInd=find(SpoofedSUFlag);
                 FalseAvailableChannelNumber_OptimalAttack(SpoofedSUInd)= AvailableChannelatSpoofedLocation;
 
-                %Simulate greedy attack case
+                %Simulate optimal attack case
                 SUTrStatus=zeros(1,SUNumber);%1 means transmission completed
                 SUTransFinishedNum=0;
                 clock_OptimalAttack=0;
@@ -256,8 +256,8 @@ for r=1:RunTimes
                 tmpChannelInterfered=0;
                 %Check if any spoofed SU interfers with PU
                 for k=1:n
-                   Location= [Coordinate{k}(1),Coordinate{k}(2)];%Real Location
-                   Ind=SpoofedSUInd(k);
+                    Ind=SpoofedSUInd(k);
+                   Location= [Coordinate{Ind}(1),Coordinate{Ind}(2)];%Real Location
                    if(Database(ChannelIndUsedByEachSU_OptimalAttack(Ind),ceil(Location(1)),ceil(Location(2))))%PU is active
                     ChannelInterferedDistribution_OptimalAttack(r,ChannelIndUsedByEachSU_OptimalAttack(Ind))= ChannelInterferedDistribution_OptimalAttack(r,ChannelIndUsedByEachSU_OptimalAttack(Ind))+1;
                       tmpChannelInterfered= tmpChannelInterfered+1;  

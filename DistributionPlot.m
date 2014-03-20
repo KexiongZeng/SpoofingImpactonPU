@@ -2,6 +2,7 @@ a=ChannelInterferedDistribution_RandomAttack;
 b=sum(a);
 c=sum(b);
 d=b/c;
+[D,IX]=sort(d,'descend');
 x=1:51;
 figure(1)
 bar(x,d);
