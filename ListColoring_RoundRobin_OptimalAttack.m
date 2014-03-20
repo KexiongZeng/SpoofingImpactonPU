@@ -115,7 +115,7 @@ for r=1:RunTimes
           tmpChannelInterfered= tmpChannelInterfered+1;  
        end
     end
-     ChannelInterfered_RandomAttack(r)= tmpChannelInterfered;
+     ChannelInterfered_RandomAttack(r)= tmpChannelInterfered/clock_RandomAttack;
      save('tmp_RandomAttack','SpoofedSUNum','ChannelInterfered_RandomAttack','ChannelInterferedDistribution_RandomAttack');
          %Generate greedy spoof location 
          Phi=zeros(1,(SizeOfGrid/Resolution)^2);
@@ -196,80 +196,80 @@ for r=1:RunTimes
           tmpChannelInterfered= tmpChannelInterfered+1;  
        end
     end
-     ChannelInterfered_GreedyAttack(r)= tmpChannelInterfered;
+     ChannelInterfered_GreedyAttack(r)= tmpChannelInterfered/clock_GreedyAttack;
        save('tmp_GreedyAttack','SpoofedSUNum','ChannelInterfered_GreedyAttack','ChannelInterferedDistribution_GreedyAttack');
                %Generate Brutal forceOptimal spoof location 
-        ChannelInterferedBrutalForce=zeros(1,(SizeOfGrid/Resolution)^2);
-         for p=1:(SizeOfGrid/Resolution)
-            for q=1:(SizeOfGrid/Resolution)
-
-                SpoofedLocation=[(p-1)*Resolution+1,(q-1)*Resolution+1];%Spoofing Location set by attacker
-                Lia=ismember(Database(:,ceil(SpoofedLocation(1)),ceil(SpoofedLocation(2))),0);
-                AvailableChannelatSpoofedLocation=sum(Lia)/NumOfChannels;
-                FalseAvailableChannelNumber_OptimalAttack= AvailableChannelNumber;
-                SpoofedSUInd=find(SpoofedSUFlag);
-                FalseAvailableChannelNumber_OptimalAttack(SpoofedSUInd)= AvailableChannelatSpoofedLocation;
-
-                %Simulate optimal attack case
-                SUTrStatus=zeros(1,SUNumber);%1 means transmission completed
-                SUTransFinishedNum=0;
-                clock_OptimalAttack=0;
-                while(SUTransFinishedNum<SUNumber)
-                    [B,IX]=sort(AvaLocNum+(rand(TotalAvailableChannelNum,1)-0.5));%Sort available channel from low to high and randomly break the tie
-                    SortBSChannelInd=BSChannelInd(IX);
-                   for i=1:TotalAvailableChannelNum
-                       for j=1:NumOfChannels
-                           CandidateSU=0;
-                          AssignedChannelInd=(SortBSChannelInd(i)-1)*NumOfChannels+j;%Subchannel index
-                          AvailableChannelNum=10000*ones(1,SUNumber);
-                          %List vertex coloring
-                          for k=1:SUNumber
-                              if(~SUTrStatus(k))
-                                  if(SpoofedSUFlag(k))
-                                  Location=SpoofedLocation;
-                                  else
-                                  Location=[Coordinate{k}(1),Coordinate{k}(2)];
-                                  end
-                                  if(~Database(AssignedChannelInd,ceil(Location(1)),ceil(Location(2))))%Channel is available at that location
-                                      if(~CandidateSU)
-                                          CandidateSU=AssignedChannelInd;                            
-                                      else
-                                          CandidateSU=[CandidateSU,k];
-                                      end
-
-                                      AvailableChannelNum(k)=FalseAvailableChannelNumber_OptimalAttack(k);%Num of available channels at location
-                                  end
-                              end
-                          end
-                            if(CandidateSU)
-                              [B,IX]=sort(AvailableChannelNum+(rand(1,SUNumber)-0.5));%Sort by color degree from low to high, break tie randomly
-                              SUTrStatus(IX(1))=1;%Already assigned channel
-                              ChannelIndUsedByEachSU_OptimalAttack(IX(1))= AssignedChannelInd;%Record which channel is assigned
-                              SUTransFinishedNum=SUTransFinishedNum+1;
-                            end
-                       end
-                   end
-                   FalseDenyofServiceNum(r)=FalseDenyofServiceNum(r)+(SUNumber-SUTransFinishedNum);
-                   clock_OptimalAttack=clock_OptimalAttack+1;
-                end
-                n=SpoofedSUNum(r);
-                tmpChannelInterfered=0;
-                %Check if any spoofed SU interfers with PU
-                for k=1:n
-                    Ind=SpoofedSUInd(k);
-                   Location= [Coordinate{Ind}(1),Coordinate{Ind}(2)];%Real Location
-                   if(Database(ChannelIndUsedByEachSU_OptimalAttack(Ind),ceil(Location(1)),ceil(Location(2))))%PU is active
-                    ChannelInterferedDistribution_OptimalAttack(r,ChannelIndUsedByEachSU_OptimalAttack(Ind))= ChannelInterferedDistribution_OptimalAttack(r,ChannelIndUsedByEachSU_OptimalAttack(Ind))+1;
-                      tmpChannelInterfered= tmpChannelInterfered+1;  
-                   end
-                end
-                 
-                   ChannelInterferedBrutalForce((p-1)*SizeOfGrid/Resolution+q)=tmpChannelInterfered;
-            end
-         end
-         [B,IX]=sort(ChannelInterferedBrutalForce,'descend');
-         ChannelInterfered_OptimalAttack(r)= B(1);
-save('tmp_OptimalAttack','SpoofedSUNum','ChannelInterfered_OptimalAttack','ChannelInterferedDistribution_OptimalAttack','ChannelInterferedBrutalForce');
+%         ChannelInterferedBrutalForce=zeros(1,(SizeOfGrid/Resolution)^2);
+%          for p=1:(SizeOfGrid/Resolution)
+%             for q=1:(SizeOfGrid/Resolution)
+% 
+%                 SpoofedLocation=[(p-1)*Resolution+1,(q-1)*Resolution+1];%Spoofing Location set by attacker
+%                 Lia=ismember(Database(:,ceil(SpoofedLocation(1)),ceil(SpoofedLocation(2))),0);
+%                 AvailableChannelatSpoofedLocation=sum(Lia)/NumOfChannels;
+%                 FalseAvailableChannelNumber_OptimalAttack= AvailableChannelNumber;
+%                 SpoofedSUInd=find(SpoofedSUFlag);
+%                 FalseAvailableChannelNumber_OptimalAttack(SpoofedSUInd)= AvailableChannelatSpoofedLocation;
+% 
+%                 %Simulate optimal attack case
+%                 SUTrStatus=zeros(1,SUNumber);%1 means transmission completed
+%                 SUTransFinishedNum=0;
+%                 clock_OptimalAttack=0;
+%                 while(SUTransFinishedNum<SUNumber)
+%                     [B,IX]=sort(AvaLocNum+(rand(TotalAvailableChannelNum,1)-0.5));%Sort available channel from low to high and randomly break the tie
+%                     SortBSChannelInd=BSChannelInd(IX);
+%                    for i=1:TotalAvailableChannelNum
+%                        for j=1:NumOfChannels
+%                            CandidateSU=0;
+%                           AssignedChannelInd=(SortBSChannelInd(i)-1)*NumOfChannels+j;%Subchannel index
+%                           AvailableChannelNum=10000*ones(1,SUNumber);
+%                           %List vertex coloring
+%                           for k=1:SUNumber
+%                               if(~SUTrStatus(k))
+%                                   if(SpoofedSUFlag(k))
+%                                   Location=SpoofedLocation;
+%                                   else
+%                                   Location=[Coordinate{k}(1),Coordinate{k}(2)];
+%                                   end
+%                                   if(~Database(AssignedChannelInd,ceil(Location(1)),ceil(Location(2))))%Channel is available at that location
+%                                       if(~CandidateSU)
+%                                           CandidateSU=AssignedChannelInd;                            
+%                                       else
+%                                           CandidateSU=[CandidateSU,k];
+%                                       end
+% 
+%                                       AvailableChannelNum(k)=FalseAvailableChannelNumber_OptimalAttack(k);%Num of available channels at location
+%                                   end
+%                               end
+%                           end
+%                             if(CandidateSU)
+%                               [B,IX]=sort(AvailableChannelNum+(rand(1,SUNumber)-0.5));%Sort by color degree from low to high, break tie randomly
+%                               SUTrStatus(IX(1))=1;%Already assigned channel
+%                               ChannelIndUsedByEachSU_OptimalAttack(IX(1))= AssignedChannelInd;%Record which channel is assigned
+%                               SUTransFinishedNum=SUTransFinishedNum+1;
+%                             end
+%                        end
+%                    end
+%                    FalseDenyofServiceNum(r)=FalseDenyofServiceNum(r)+(SUNumber-SUTransFinishedNum);
+%                    clock_OptimalAttack=clock_OptimalAttack+1;
+%                 end
+%                 n=SpoofedSUNum(r);
+%                 tmpChannelInterfered=0;
+%                 %Check if any spoofed SU interfers with PU
+%                 for k=1:n
+%                     Ind=SpoofedSUInd(k);
+%                    Location= [Coordinate{Ind}(1),Coordinate{Ind}(2)];%Real Location
+%                    if(Database(ChannelIndUsedByEachSU_OptimalAttack(Ind),ceil(Location(1)),ceil(Location(2))))%PU is active
+%                     ChannelInterferedDistribution_OptimalAttack(r,ChannelIndUsedByEachSU_OptimalAttack(Ind))= ChannelInterferedDistribution_OptimalAttack(r,ChannelIndUsedByEachSU_OptimalAttack(Ind))+1;
+%                       tmpChannelInterfered= tmpChannelInterfered+1;  
+%                    end
+%                 end
+%                  
+%                    ChannelInterferedBrutalForce((p-1)*SizeOfGrid/Resolution+q)=tmpChannelInterfered;
+%             end
+%          end
+%          [B,IX]=sort(ChannelInterferedBrutalForce,'descend');
+%          ChannelInterfered_OptimalAttack(r)= B(1)/clock_OptimalAttack;
+%save('tmp_OptimalAttack','SpoofedSUNum','ChannelInterfered_OptimalAttack','ChannelInterferedDistribution_OptimalAttack','ChannelInterferedBrutalForce');
       
 end
 beep;

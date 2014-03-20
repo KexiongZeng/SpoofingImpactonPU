@@ -38,9 +38,9 @@ pa.Resolution=8;%0.5mile=800m resolution
 %Every gird is 121.1m north-south and 96.3m east-west
 %157*157 square
 pa.SUProtectRange=1;%Neighboring Protected Range
-pa.SUNumber=21*pa.NumOfChannels*4;%
+pa.SUNumber=21*pa.NumOfChannels*60;%
 pa.SpoofRange=10;
-pa.RunTimes=10000;
+pa.RunTimes=20;
 pa.Constraint=(15:20)*0.1;%Constraint:max distance between spoofed location and true location 
 % longitude=zeros(1,157);
 % latitude=zeros(1,157);
